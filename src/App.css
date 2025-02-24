@@ -1,0 +1,60 @@
+/* Conteneur principal */
+.app-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align content to the left */
+  min-height: 100vh;
+  background-image: url("./leoniyaso.png");
+  background-size: cover;
+  background-position: center;
+  padding: 0 50px; /* Add left padding to prevent sticking to the edge */
+  position: relative;
+  width: 100vw; /* Ensure full width */
+}
+
+/* Section du formulaire */
+.form-section {
+  align-self: flex-start;
+  width: 40%; /* Adjust width as needed */
+  max-width: 500px; /* Prevent it from becoming too wide */
+  padding: 20px;
+  border-radius: 10px;
+  /* Ensure visibility */
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Section Leoni */
+/*.leoni-section {
+ flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+
+/* Effet flou en arrière-plan pour lisibilité */
+/*.leoni-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10;
+  width: 90%;
+  height: 100%;
+  top: 300px;
+  background: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0.25px);
+}
+
+/* Texte Leoni */
+/* Ajustement du texte pour qu'il soit plus haut */
+/*.leoni-text {
+  position: relative;
+  color: rgba(0, 0, 0, 0);
+  font-size: 18px;
+  text-align: center;
+  max-width: 80%;
+  line-height: 1.6;
+  font-weight: bold;
+  top: -50; /* Déplace le texte vers le haut 
+} */
