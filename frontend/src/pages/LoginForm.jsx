@@ -24,7 +24,7 @@ function LoginForm() {
       .then((response) => {
         // Si le login est réussi, par exemple si le backend renvoie un token
         console.log("Login success:", response.data);
-        alert("Connexion réussie !");
+       
         
         // Stocker le token dans le localStorage (ou autre méthode de stockage)
         localStorage.setItem("token", response.data.token);

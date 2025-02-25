@@ -32,7 +32,7 @@ function RegistrationForm() {
       .post("http://localhost:3000/register", userData)
       .then((response) => {
         console.log(response.data);
-        alert(response.data.message);
+        
         navigate("/"); // Redirection vers la page de connexion après inscription réussie
       })
       .catch((error) => {
