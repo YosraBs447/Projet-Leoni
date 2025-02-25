@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./RegistrationForm.css";
+import { Eye, EyeOff } from "lucide-react";
+import axios from "axios";
 
 function RegistrationForm() {
   const navigate = useNavigate();
@@ -9,21 +11,37 @@ function RegistrationForm() {
   const [site, setSite] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  
+ 
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Logique de soumission du formulaire
-    console.log("Form submitted:", {
-      name,
-      matricule,
-      site,
-      email,
-      password,
-      role,
-    });
-    // Par exemple, après une inscription réussie, rediriger vers la page de connexion :
-    navigate("/");
+
+    const userData = {
+      nom: name,
+      prenom: site, // Tu peux utiliser site comme prénom ou changer selon ta logique
+      matricule: matricule,
+      email: email,
+      password: password,
+      
+    };
+
+    axios
+      .post("http://localhost:3000/register", userData)
+      .then((response) => {
+        console.log(response.data);
+        alert(response.data.message);
+        navigate("/"); // Redirection vers la page de connexion après inscription réussie
+      })
+      .catch((error) => {
+        if (error.response) {
+          setErrorMessage(error.response.data.message);
+        } else {
+          setErrorMessage("Erreur de connexion avec le serveur");
+        }
+      });
   };
 
   return (
@@ -49,19 +67,19 @@ function RegistrationForm() {
                 setMatricule(e.target.value);
               }
             }}
-            maxLength="5" // Empêche d'écrire plus de 5 caractères
+            maxLength="5"
             style={{ color: "black" }}
           />
         </div>
         <div className="input-wrapper">
           <select value={site} onChange={(e) => setSite(e.target.value)}>
             <option value="">Selectionner un site</option>
-            <option value="site1">TN4</option>
-            <option value="site2">TN3</option>
-            <option value="site3">TNS</option>
-            <option value="site4">TNM</option>
-            <option value="site5">TNMAC</option>
-            <option value="site6">TNMAE</option>
+            <option value="TN4">TN4</option>
+            <option value="TN3">TN3</option>
+            <option value="TNS">TNS</option>
+            <option value="TNM">TNM</option>
+            <option value="TNMAC">TNMAC</option>
+            <option value="TNMAE">TNMAE</option>
           </select>
         </div>
         <div className="input-wrapper">
@@ -73,36 +91,31 @@ function RegistrationForm() {
             style={{ color: "black" }}
           />
         </div>
-        <div className="input-wrapper">
-          <input
-            type="password"
-            placeholder="Mot de passe"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ color: "black" }}
-          />
-        </div>
-        <div className="radio-group">
-          <label>
-            <input
-              type="radio"
-              value="Technicien"
-              checked={role === "Technicien"}
-              onChange={(e) => setRole(e.target.value)}
-            />
-            Technicien
-          </label>
-          <label>
-            <input
-              type="radio"
-              value="Administrateur"
-              checked={role === "Administrateur"}
-              onChange={(e) => setRole(e.target.value)}
-            />
-            Administrateur
-          </label>
-        </div>
+        <div className="input-wrapper password-wrapper">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Mot de passe"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <span
+                    className="eye-icon"
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label={
+                      showPassword
+                        ? "Masquer le mot de passe"
+                        : "Afficher le mot de passe"
+                    }
+                  >
+                    {showPassword ? <Eye /> : <EyeOff />}
+                  </span>
+                </div>
+       
         <button type="submit">S'INSCRIRE</button>
+        {errorMessage && (
+          <div className="error-message">{errorMessage}</div>
+        )}
         <div className="login-link">
           Vous avez déjà un compte?{" "}
           <Link to="/" className="underline">

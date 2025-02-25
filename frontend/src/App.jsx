@@ -26,21 +26,14 @@ function App() {
             <div className="app-container">
               <div className="form-section">
                 <RegistrationForm />
-              </div>
-              <div className="leoni-section">
-                <div className="leoni-text">
-                  <p>
-                    Le succès de Leoni repose sur l'engagement de chaque
-                    individu. C'est grâce à votre expertise et votre dévouement
-                    que nous atteignons de nouveaux sommets.
-                  </p>
-                </div>
+              
               </div>
             </div>
           }
         />
       </Routes>
     </Router>
+    
   );
 }
 

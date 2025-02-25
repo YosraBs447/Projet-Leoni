@@ -2,17 +2,44 @@ import React, { useState } from "react";
 import "./LoginForm.css";
 import { useNavigate, Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
+import axios from "axios";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // Par défaut, le mot de passe est masqué
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // Pour afficher un message d'erreur
 
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Login submitted:", { email, password });
+
+    // Envoi des données au backend
+    axios
+      .post("http://localhost:3000/login", {
+        email: email,
+        password: password,
+      })
+      .then((response) => {
+        // Si le login est réussi, par exemple si le backend renvoie un token
+        console.log("Login success:", response.data);
+        alert("Connexion réussie !");
+        
+        // Stocker le token dans le localStorage (ou autre méthode de stockage)
+        localStorage.setItem("token", response.data.token);
+
+        // Redirection après connexion réussie
+        navigate("/dashboard");
+      })
+      .catch((error) => {
+        console.error("Login error:", error);
+        if (error.response && error.response.data) {
+          setErrorMessage(error.response.data.message);
+        } else {
+          setErrorMessage("Erreur de connexion avec le serveur");
+        }
+      });
   };
 
   return (
@@ -49,6 +76,11 @@ function LoginForm() {
           </span>
         </div>
         <button type="submit">SE CONNECTER</button>
+        
+        {errorMessage && (
+          <div className="error-message">{errorMessage}</div>
+        )}
+
         <div className="forgot-password">
           Mot de passe oublié ?{" "}
           <Link to="/forgot-password" className="underline text-blue-500">
