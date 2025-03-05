@@ -1,0 +1,104 @@
+.verification-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgba(183, 209, 239, 0.838);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(22, 75, 134, 0.838);
+    text-align: center;
+}
+
+.verification-container h2 {
+    margin-bottom: 10px;
+    color: #091743;
+}
+
+.verification-container p {
+    color: #333;
+    font-size: 14px;
+}
+
+.code-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.code-inputs input {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 24px;
+    color: #091743;
+    border: 2px solid #007BFF;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s;
+}
+
+.code-inputs input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 4px 8px rgba(190, 188, 188, 0.2);
+}
+
+.verification-container button[type="submit"] {
+    width: 80%;
+    background: linear-gradient(135deg, #007BFF, #0056b3); /* Dégradé de bleu */
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 25px; /* Coins arrondis */
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
+}
+
+.verification-container button[type="submit"]:hover {
+    background: linear-gradient(135deg, #0056b3, #004090); /* Dégradé plus foncé */
+    box-shadow: 0 6px 12px rgba(0, 85, 179, 0.5);
+    transform: scale(1.05); /* Léger effet d'agrandissement */
+}
+
+.verification-container button[type="submit"]:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 6px rgba(0, 85, 179, 0.4);
+}
+
+/* Timer */
+.timer {
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+}
+
+/* Style du lien "Renvoyer le Code" */
+.resend-link {
+    margin-top: 10px;
+}
+
+.resend-link a {
+    color: #007BFF;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.resend-link a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* Message d'erreur */
+.verification-container .error-message {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+}
