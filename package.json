@@ -21,6 +21,7 @@
   "dependencies": {
     "express-oauth2-jwt-bearer": "^1.6.0",
     "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.10.0",
     "react-icons": "^5.5.0"
   },
   "devDependencies": {

@@ -1,7 +1,8 @@
 import User from '../models/userModel.js';
-import transporter from '../config/emailTransporter.js';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
+import nodemailer from 'nodemailer'; // Importation du module nodemailer
+import transporter from '../config/emailTransporter.js'; // Importation du transporteur d'email
 
 dotenv.config(); // Charger les variables d'environnement
 

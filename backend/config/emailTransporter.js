@@ -23,6 +23,7 @@ const transporter = nodemailer.createTransport({
     },
 });
 
+
 // Tester la connexion au serveur SMTP
 transporter.verify((error, success) => {
     if (error) {
@@ -32,4 +33,5 @@ transporter.verify((error, success) => {
     }
 });
 
+// Exporter le transporteur et la fonction
 export default transporter;

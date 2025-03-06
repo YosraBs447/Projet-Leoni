@@ -25,10 +25,11 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     role: {
-        type: String,
-        enum: ['admin', 'technicien'],
-        default: 'technicien'
+        type: String,             // Le type de données du champ est une chaîne de caractères (String).
+        enum: ['admin', 'technicien'], // Le champ 'role' doit être soit 'admin', soit 'technicien'.
+        default: 'technicien'     // Si aucune valeur n'est spécifiée lors de la création de l'utilisateur, 'technicien' sera utilisé par défaut.
     },
+    
     verificationCode: {
         type: String,
         required: false
