@@ -4,7 +4,6 @@ import RegistrationForm from "./pages/RegistrationForm";
 import VerificationCodeForm from "./pages/VerificationCodeForm";
 import ResetPasswordForm from "./pages/ResetPasswordForm";
 import AdminPanel from "./components/AdminPanel"; // Importation du composant AdminPanel
-
 import "./App.css";
 
 function App() {
@@ -46,14 +45,8 @@ function App() {
         />
         {/* Route vers le tableau de bord de l'administrateur */}
         <Route
-          path="/dashboard"
-          element={
-            <div className="app-container">
-              <div className="form-section">
-                <AdminPanel />
-              </div>
-            </div>
-          }
+          path="/admin-panel/*"
+          element={<AdminPanel />} // Assure-toi que AdminPanel est bien ici
         />
         {/* Page de réinitialisation du mot de passe */}
         <Route

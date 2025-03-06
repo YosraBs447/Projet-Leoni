@@ -1,0 +1,38 @@
+/* AdminPanel.css */
+
+/* Global styles pour l'Admin Panel */
+.admin-panel {
+  display: flex; /* Utilise le flexbox pour aligner le sidebar et le contenu */
+  height: 100vh; /* Assure que la hauteur de l'écran est remplie */
+  background-color: #f4f4f4; /* Optionnel, pour ajouter un fond léger */
+}
+
+.main-content {
+  flex: 1; /* Cela signifie que le contenu principal occupe tout l'espace restant */
+  padding: 20px;
+  background-color: white; /* Fond blanc pour le contenu */
+  overflow-y: auto; /* Permet de faire défiler le contenu si nécessaire */
+}
+
+.sidebar {
+  width: 250px; /* Largeur du sidebar */
+  height: 100vh; /* Hauteur de la barre latérale qui s'étend sur toute la hauteur de l'écran */
+  background-color: #333; /* Fond sombre pour le sidebar */
+  color: white;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.sidebar a:hover {
+  background-color: #444; /* Change la couleur du fond lors du survol */
+}
