@@ -11,7 +11,11 @@ function LoginForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false); // Ajout du chargement
 
+<<<<<<< HEAD
   const navigate = useNavigate();
+=======
+  const navigate = useNavigate(); // Utilisation de navigate pour rediriger
+>>>>>>> a18b53d3524d96b0c576eb7ed2f2975730888dda
 
   // Fonction de connexion
   const handleSubmit = (event) => {
@@ -22,24 +26,40 @@ function LoginForm() {
       .post("http://localhost:3000/api/users/login", { email, password })
       .then((response) => {
         console.log("✅ Connexion réussie :", response.data);
+<<<<<<< HEAD
         localStorage.setItem("token", response.data.token); // Stocker le token
         navigate("/dashboard");
+=======
+        localStorage.setItem("token", response.data.token); // Stockage du token
+        navigate("/dashboard"); // Redirection vers l'admin panel après connexion
+>>>>>>> a18b53d3524d96b0c576eb7ed2f2975730888dda
       })
       .catch((error) => {
         setLoading(false); // Arrêter l'indicateur de chargement
         console.error("❌ Erreur de connexion :", error);
-        setErrorMessage(error.response?.data?.message || "Erreur de connexion avec le serveur.");
+        setErrorMessage(
+          error.response?.data?.message ||
+            "Erreur de connexion avec le serveur."
+        );
       });
   };
 
   // Fonction mot de passe oublié
   const handleForgotPassword = (event) => {
     event.preventDefault();
+<<<<<<< HEAD
     setLoading(true); // Afficher le message "Chargement..."
 
     if (!email) {
       setLoading(false); // Arrêter le chargement si l'email est vide
       setErrorMessage("❌ Veuillez entrer votre adresse email.");
+=======
+
+    if (!email) {
+      console.error(
+        "❌ Veuillez entrer votre adresse email avant de continuer."
+      );
+>>>>>>> a18b53d3524d96b0c576eb7ed2f2975730888dda
       return;
     }
 
@@ -47,7 +67,11 @@ function LoginForm() {
       .post("http://localhost:3000/api/password/forgot-password", { email })
       .then((response) => {
         console.log("✅ Email de récupération envoyé :", response.data);
+<<<<<<< HEAD
         navigate("/verification-code", { state: { email } });
+=======
+        navigate("/verification-code", { state: { email } }); // Navigation vers la page de vérification du code
+>>>>>>> a18b53d3524d96b0c576eb7ed2f2975730888dda
       })
       .catch((error) => {
         setLoading(false); // Arrêter le chargement
@@ -79,14 +103,21 @@ function LoginForm() {
             minLength={8}
             required
           />
-          <span className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
+          <span
+            className="eye-icon"
+            onClick={() => setShowPassword(!showPassword)}
+          >
             {showPassword ? <Eye /> : <EyeOff />}
           </span>
         </div>
+<<<<<<< HEAD
 
         <button type="submit" disabled={loading}>
           {loading ? "Chargement..." : "SE CONNECTER"}
         </button>
+=======
+        <button type="submit">SE CONNECTER</button>
+>>>>>>> a18b53d3524d96b0c576eb7ed2f2975730888dda
 
         {errorMessage && <div className="error-message">{errorMessage}</div>}
 

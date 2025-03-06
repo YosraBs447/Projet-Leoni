@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginForm from "./pages/LoginForm";
-// Interface de connexion
-import RegistrationForm from "./pages/RegistrationForm";// Interface d'inscription
-import VerificationCodeForm from "./pages/VerificationCodeForm"; // Interface de vérification du code
-import ResetPasswordForm from "./pages/ResetPasswordForm"; // Interface de réinitialisation du mot de passe
+import RegistrationForm from "./pages/RegistrationForm";
+import VerificationCodeForm from "./pages/VerificationCodeForm";
+import ResetPasswordForm from "./pages/ResetPasswordForm";
+import AdminPanel from "./components/AdminPanel"; // Importation du composant AdminPanel
 
 import "./App.css";
 
@@ -11,7 +11,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Page de connexion par défaut */}
+        {/* Route vers la page de connexion */}
         <Route
           path="/"
           element={
@@ -29,7 +29,6 @@ function App() {
             <div className="app-container">
               <div className="form-section">
                 <RegistrationForm />
-              
               </div>
             </div>
           }
@@ -44,7 +43,19 @@ function App() {
               </div>
             </div>
           }
-          />
+        />
+        {/* Route vers le tableau de bord de l'administrateur */}
+        <Route
+          path="/dashboard"
+          element={
+            <div className="app-container">
+              <div className="form-section">
+                <AdminPanel />
+              </div>
+            </div>
+          }
+        />
+        {/* Page de réinitialisation du mot de passe */}
         <Route
           path="/reset-password"
           element={
@@ -57,7 +68,6 @@ function App() {
         />
       </Routes>
     </Router>
-    
   );
 }
 
