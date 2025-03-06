@@ -5,12 +5,12 @@ import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
 
 function LoginForm() {
-  const [email, setEmail] = useState("");//usesate pour initialiser la valeur de l'input
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const navigate = useNavigate();//useNavigate pour naviguer entre les pages
+  const navigate = useNavigate(); // Utilisation de navigate pour rediriger
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -19,36 +19,38 @@ function LoginForm() {
       .post("http://localhost:3000/api/users/login", { email, password })
       .then((response) => {
         console.log("✅ Connexion réussie :", response.data);
-        localStorage.setItem("token", response.data.token);//stocker le token dans le localstorage
-        navigate("/dashboard");
+        localStorage.setItem("token", response.data.token); // Stockage du token
+        navigate("/dashboard"); // Redirection vers l'admin panel après connexion
       })
       .catch((error) => {
         console.error("❌ Erreur de connexion :", error);
-        setErrorMessage(error.response?.data?.message || "Erreur de connexion avec le serveur.");
+        setErrorMessage(
+          error.response?.data?.message ||
+            "Erreur de connexion avec le serveur."
+        );
       });
   };
 
   const handleForgotPassword = (event) => {
-    event.preventDefault(); // Empêcher la navigation par défaut du lien
-  
+    event.preventDefault();
+
     if (!email) {
-      console.error("❌ Veuillez entrer votre adresse email avant de continuer.");
+      console.error(
+        "❌ Veuillez entrer votre adresse email avant de continuer."
+      );
       return;
     }
-  
+
     axios
       .post("http://localhost:3000/api/password/forgot-password", { email })
       .then((response) => {
         console.log("✅ Email de récupération envoyé :", response.data);
-        
-        // Rediriger vers VerificationCodeForm avec l'email
-        navigate("/verification-code", { state: { email } });
+        navigate("/verification-code", { state: { email } }); // Navigation vers la page de vérification du code
       })
       .catch((error) => {
         console.error("❌ Erreur lors de l'envoi du code :", error);
       });
   };
-  
 
   return (
     <div className="login-container">
@@ -73,18 +75,21 @@ function LoginForm() {
             minLength={8}
             required
           />
-          <span className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
+          <span
+            className="eye-icon"
+            onClick={() => setShowPassword(!showPassword)}
+          >
             {showPassword ? <Eye /> : <EyeOff />}
           </span>
         </div>
         <button type="submit">SE CONNECTER</button>
-        
+
         {errorMessage && <div className="error-message">{errorMessage}</div>}
 
         <div className="forgot-password">
           <Link
-            to="/verification-code" // Vous définissez la route ici
-            onClick={handleForgotPassword} // Appel de la fonction avant la navigation
+            to="/verification-code"
+            onClick={handleForgotPassword}
             className="underline text-blue-500"
           >
             Mot de passe oublié ?
