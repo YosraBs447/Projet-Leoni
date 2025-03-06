@@ -1,5 +1,6 @@
 // server.js
 import express from 'express';
+import { auth } from 'express-oauth2-jwt-bearer';  // Importation du middleware
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
@@ -24,6 +25,16 @@ app.use('/api/password', passwordRoutes);// Utiliser les routes de réinitialisa
 console.log("📩 EMAIL_USER :", process.env.EMAIL_USER);
 console.log("🔑 EMAIL_PASS :", process.env.EMAIL_PASS ? "OK" : "NON DÉFINI");
 
+// Middleware pour vérifier le JWT
+const checkJwt = auth({
+    audience: 'https://dev-l6ahn3xj3jdh0ku4.us.auth0.com/api/v2/',   // Remplace par ton API Identifier
+    issuerBaseURL: 'https://dev-l6ahn3xj3jdh0ku4.us.auth0.com/',  // Remplace par ton domaine Auth0
+  });
+  
+  app.get('/api/private', checkJwt, (req, res) => { // Route protégée
+    res.json({ message: 'Bienvenue dans la zone protégée!' });
+  });
+  
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

@@ -5,50 +5,56 @@ import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
 
 function LoginForm() {
-  const [email, setEmail] = useState("");//usesate pour initialiser la valeur de l'input
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false); // Ajout du chargement
 
-  const navigate = useNavigate();//useNavigate pour naviguer entre les pages
+  const navigate = useNavigate();
 
+  // Fonction de connexion
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true); // Afficher l'indicateur de chargement
 
     axios
       .post("http://localhost:3000/api/users/login", { email, password })
       .then((response) => {
         console.log("✅ Connexion réussie :", response.data);
-        localStorage.setItem("token", response.data.token);//stocker le token dans le localstorage
+        localStorage.setItem("token", response.data.token); // Stocker le token
         navigate("/dashboard");
       })
       .catch((error) => {
+        setLoading(false); // Arrêter l'indicateur de chargement
         console.error("❌ Erreur de connexion :", error);
         setErrorMessage(error.response?.data?.message || "Erreur de connexion avec le serveur.");
       });
   };
 
+  // Fonction mot de passe oublié
   const handleForgotPassword = (event) => {
-    event.preventDefault(); // Empêcher la navigation par défaut du lien
-  
+    event.preventDefault();
+    setLoading(true); // Afficher le message "Chargement..."
+
     if (!email) {
-      console.error("❌ Veuillez entrer votre adresse email avant de continuer.");
+      setLoading(false); // Arrêter le chargement si l'email est vide
+      setErrorMessage("❌ Veuillez entrer votre adresse email.");
       return;
     }
-  
+
     axios
       .post("http://localhost:3000/api/password/forgot-password", { email })
       .then((response) => {
         console.log("✅ Email de récupération envoyé :", response.data);
-        
-        // Rediriger vers VerificationCodeForm avec l'email
         navigate("/verification-code", { state: { email } });
       })
       .catch((error) => {
+        setLoading(false); // Arrêter le chargement
         console.error("❌ Erreur lors de l'envoi du code :", error);
+        setErrorMessage("❌ Erreur lors de l'envoi de l'email de récupération.");
       });
   };
-  
 
   return (
     <div className="login-container">
@@ -77,19 +83,23 @@ function LoginForm() {
             {showPassword ? <Eye /> : <EyeOff />}
           </span>
         </div>
-        <button type="submit">SE CONNECTER</button>
-        
+
+        <button type="submit" disabled={loading}>
+          {loading ? "Chargement..." : "SE CONNECTER"}
+        </button>
+
         {errorMessage && <div className="error-message">{errorMessage}</div>}
 
         <div className="forgot-password">
           <Link
-            to="/verification-code" // Vous définissez la route ici
-            onClick={handleForgotPassword} // Appel de la fonction avant la navigation
+            to="/verification-code"
+            onClick={handleForgotPassword}
             className="underline text-blue-500"
           >
             Mot de passe oublié ?
           </Link>
         </div>
+
         <div className="signup-link">
           Vous n'avez pas de compte ?{" "}
           <Link to="/register" className="underline text-blue-500">
