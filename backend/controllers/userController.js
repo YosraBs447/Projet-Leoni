@@ -2,6 +2,9 @@
 import jwt from 'jsonwebtoken';  // Pour la création du JWT
 import bcrypt from 'bcrypt';  // Pour le hachage de mot de passe
 import User from '../models/userModel.js';  // Le modèle utilisateur pour interagir avec MongoDB
+import Invitation from '../models/invitationModel.js';  // Le modèle invitation pour interagir avec MongoDB
+import nodemailer from 'nodemailer';  // Pour l'envoi d'email
+
 
 // ======================================================
 //                Contrôleur d'Inscription
@@ -29,25 +32,48 @@ export const registerUser = async (req, res) => {
         // Détermination du rôle de l'utilisateur :
         // Si c'est le premier utilisateur créé, il devient 'admin', sinon 'technicien'
         const userCount = await User.countDocuments();
-        // Tous les utilisateurs auront le rôle "technicien" par défaut
-        const role = 'technicien';
+        const role = userCount === 0 ? 'admin' : 'technicien';
+
         // Création d'un nouvel utilisateur avec les informations fournies
-        const newUser = new User({ 
-            nomPrenom, 
-            site, 
-            matricule, 
-            email, 
+        const newUser = new User({
+            nomPrenom,
+            site,
+            matricule,
+            email,
             password: hashedPassword, // On stocke le mot de passe haché pour plus de sécurité
-            role 
+            role,
         });
 
         // Sauvegarde du nouvel utilisateur dans la base de données
         await newUser.save();
 
+        // Si l'utilisateur est un technicien, créez une invitation pour l'administrateur
+        if (role === 'technicien') {
+            // Créez une nouvelle invitation
+            const invitation = new Invitation({
+                userId: newUser._id, // Référence à l'utilisateur créé
+                status: 'pending', // Statut initial : en attente
+            });
+
+            await invitation.save();
+
+            // Envoyez un email à l'administrateur
+            const mailOptions = {
+                from: process.env.EMAIL_USER, // Adresse email de l'expéditeur
+                to: 'eyaaaboughzelaa27@gmail.com', // Remplacez par l'email de l'admin
+                subject: 'Nouvelle demande d\'inscription',
+                text: `Un nouvel utilisateur souhaite s'inscrire :\n\nNom: ${nomPrenom}\nEmail: ${email}`,
+            };
+
+            await transporter.sendMail(mailOptions);
+            console.log('📧 Invitation envoyée à l\'administrateur.');
+        }
+
         console.log("✅ Utilisateur créé avec succès !");
         res.status(201).send({ message: "Utilisateur créé avec succès !" });
     } catch (err) {
         // En cas d'erreur, renvoyer une réponse avec le message de l'erreur
+        console.error(err);
         res.status(500).send({ message: err.message });
     }
 };

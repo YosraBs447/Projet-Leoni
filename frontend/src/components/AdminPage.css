@@ -1,0 +1,54 @@
+/* AdminPage.css */
+
+/* Conteneur principal */
+.admin-container {
+  display: flex; /* Utilise Flexbox pour aligner le sidebar et le contenu */
+  min-height: 100vh; /* Hauteur complète de la fenêtre */
+}
+
+/* Sidebar */
+.sidebar {
+  width: 240px; /* Largeur fixe pour le sidebar */
+  background-color: #1e1e1e; /* Fond sombre */
+  color: white; /* Texte blanc */
+  padding-top: 20px; /* Espacement en haut */
+  position: fixed; /* Fixe le sidebar sur l'écran */
+  height: 100vh; /* Hauteur complète */
+  overflow-y: auto; /* Ajoute une barre de défilement si nécessaire */
+}
+
+.sidebar-header {
+  text-align: center; /* Centre le texte du header */
+  font-size: 24px; /* Taille du texte */
+  padding: 10px; /* Espacement autour du texte */
+}
+
+.sidebar-links {
+  display: flex;
+  flex-direction: column; /* Alignement vertical des liens */
+  margin-top: 20px; /* Espacement entre le header et les liens */
+}
+
+.sidebar-link {
+  padding: 15px; /* Espacement interne */
+  color: white; /* Couleur du texte */
+  text-decoration: none; /* Supprime le soulignement */
+  font-size: 18px; /* Taille du texte */
+  border-bottom: 1px solid #444; /* Ligne de séparation */
+  transition: background-color 0.3s ease; /* Effet de transition */
+}
+
+.sidebar-link:hover {
+  background-color: #333; /* Changement de couleur au survol */
+  cursor: pointer; /* Curseur de pointeur */
+}
+
+/* Contenu principal */
+.main-content {
+  margin-left: 260px; /* Décale le contenu principal pour éviter le chevauchement avec le sidebar */
+  padding: 20px; /* Espacement interne */
+  width: calc(100% - 260px); /* Ajuste la largeur pour remplir l'espace restant */
+  min-height: 100vh; /* Assure que le contenu principal prend toute la hauteur */
+  background-color: #f9f9f9; /* Fond clair */
+  box-sizing: border-box; /* Inclut le padding dans le calcul de la largeur */
+}

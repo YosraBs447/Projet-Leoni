@@ -3,7 +3,10 @@ import LoginForm from "./pages/LoginForm";
 import RegistrationForm from "./pages/RegistrationForm";
 import VerificationCodeForm from "./pages/VerificationCodeForm";
 import ResetPasswordForm from "./pages/ResetPasswordForm";
-import AdminPanel from "./components/AdminPanel"; // Importation du composant AdminPanel
+import AdminPage from "./components/AdminPage"; // Importation du composant AdminPanel
+import Dashboard from "./components/Dashboard";
+import Users from "./components/Users";
+import Settings from "./components/Settings";
 
 import "./App.css";
 
@@ -44,17 +47,15 @@ function App() {
             </div>
           }
         />
-        {/* Route vers le tableau de bord de l'administrateur */}
-        <Route
-          path="/dashboard"
-          element={
-            <div className="app-container">
-              <div className="form-section">
-                <AdminPanel />
-              </div>
-            </div>
-          }
-        />
+         {/* Route parent pour le panneau admin */}
+         <Route path="/admin-panel" element={<AdminPage />}>
+          {/* Routes enfants */}
+          <Route index element={<Dashboard />} /> {/* Page par défaut */}
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="users" element={<Users />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
+
         {/* Page de réinitialisation du mot de passe */}
         <Route
           path="/reset-password"

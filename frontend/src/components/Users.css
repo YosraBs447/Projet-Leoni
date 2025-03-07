@@ -1,0 +1,74 @@
+/* Users.css */
+
+.users-container {
+    padding: 20px;
+    color: #333;
+    background-color: #f9f9f9; /* Fond clair */
+    min-height: calc(100vh - 100px); /* Prend toute la hauteur restante */
+    min-width: calc(100vw - 260px); /* Prend toute la largeur restante */
+    box-sizing: border-box; /* Inclut le padding dans le calcul de la largeur */
+  }
+  
+  .user-list {
+    list-style: none; /* Supprime les puces */
+    padding: 0;
+    margin: 0;
+  }
+  
+  .user-item {
+    display: flex;
+    justify-content: space-between; /* Alignement des éléments */
+    align-items: center; /* Centrage vertical */
+    background-color: white; /* Fond blanc pour chaque utilisateur */
+    border: 1px solid #ddd; /* Bordure légère */
+    border-radius: 8px; /* Coins arrondis */
+    padding: 15px;
+    margin-bottom: 10px; /* Espacement entre les éléments */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  }
+  
+  .user-item:hover {
+    background-color: #f0f8ff; /* Changement de couleur au survol */
+    cursor: pointer; /* Curseur de pointeur */
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center; /* Centrage vertical */
+  }
+  
+  .user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Avatar circulaire */
+    margin-right: 15px; /* Espacement entre l'image et le texte */
+  }
+  
+  .user-info span {
+    font-size: 18px;
+    color: #333; /* Texte sombre */
+  }
+  
+  .user-actions button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease; /* Transition fluide */
+  }
+  
+  .user-actions .edit-btn {
+    background-color: #4caf50; /* Vert pour "Modifier" */
+    color: white;
+  }
+  
+  .user-actions .delete-btn {
+    background-color: #f44336; /* Rouge pour "Supprimer" */
+    color: white;
+    margin-left: 10px; /* Espacement entre les boutons */
+  }
+  
+  .user-actions button:hover {
+    opacity: 0.9; /* Légère réduction d'opacité au survol */
+  }

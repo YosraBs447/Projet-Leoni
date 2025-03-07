@@ -1,8 +1,8 @@
 import User from '../models/userModel.js';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
-import nodemailer from 'nodemailer'; // Importation du module nodemailer
 import transporter from '../config/emailTransporter.js'; // Importation du transporteur d'email
+import nodemailer from 'nodemailer'; // Pour l'envoi d'email
 
 dotenv.config(); // Charger les variables d'environnement
 
@@ -12,7 +12,9 @@ export const sendVerificationCode = async (req, res) => {
         const { email } = req.body;
 
         // 📌 Vérification si l'utilisateur existe
-        const user = await User.findOne({ email });
+        const normalizedEmail = email.trim().toLowerCase();
+        const user = await User.findOne({ email: normalizedEmail });
+
         if (!user) {
             return res.status(404).send({ message: 'Utilisateur non trouvé.' });
         }
@@ -36,8 +38,11 @@ export const sendVerificationCode = async (req, res) => {
         user.verificationCode = hashedCode;
         user.codeExpiration = expiration;
         await user.save();
+        console.log("✅ Code enregistré dans MongoDB :", user.verificationCode);
+        console.log("✅ Expiration du code enregistrée :", user.codeExpiration);
 
-        // 📩 LOGS POUR DEBUG 
+
+        // 📩 LOGS POUR DEBUG         
         console.log("📩 Tentative d'envoi d'un email...");
         console.log("📩 Envoi d'un email à :", user.email);
 

@@ -23,12 +23,16 @@ function LoginForm() {
       .then((response) => {
         console.log("✅ Connexion réussie :", response.data);
         localStorage.setItem("token", response.data.token); // Stocker le token
-        navigate("/dashboard");
+        navigate("/admin-panel/dashboard");
       })
       .catch((error) => {
         setLoading(false); // Arrêter l'indicateur de chargement
         console.error("❌ Erreur de connexion :", error);
-        setErrorMessage(error.response?.data?.message || "Erreur de connexion avec le serveur.");
+        setErrorMessage(
+          error.response?.data?.message ||
+            error.message ||
+            "Une erreur s'est produite. Veuillez réessayer plus tard."
+        );
       });
   };
 
@@ -52,7 +56,9 @@ function LoginForm() {
       .catch((error) => {
         setLoading(false); // Arrêter le chargement
         console.error("❌ Erreur lors de l'envoi du code :", error);
-        setErrorMessage("❌ Erreur lors de l'envoi de l'email de récupération.");
+        setErrorMessage(
+          "❌ Erreur lors de l'envoi de l'email de récupération."
+        );
       });
   };
 
@@ -90,14 +96,15 @@ function LoginForm() {
 
         {errorMessage && <div className="error-message">{errorMessage}</div>}
 
+        {/* Mot de passe oublié sous forme de lien */}
         <div className="forgot-password">
-          <Link
-            to="/verification-code"
+          <a
+            href="#"
             onClick={handleForgotPassword}
-            className="underline text-blue-500"
+            style={{ color: "blue", textDecoration: "underline" }}
           >
-            Mot de passe oublié ?
-          </Link>
+            {loading ? "Chargement..." : "Mot de passe oublié ?"}
+          </a>
         </div>
 
         <div className="signup-link">

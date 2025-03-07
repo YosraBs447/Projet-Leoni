@@ -1,25 +1,25 @@
 import express from 'express';
-import { registerUser, loginUser, getAllUsers, updateUser, deleteUser } from '../controllers/userController.js';
+import { getAllUsers, updateUser, deleteUser } from '../controllers/gestionTechController.js'; // Import des contrôleurs
 import { verifyToken, checkAdmin } from '../middleware/auth.js'; // Import des middlewares
+import { getPendingInvitations } from '../controllers/gestionTechController.js';
 
+const router = express.Router();
 
 // Récupérer tous les utilisateurs (admin seulement)
-router.get('/', verifyToken, checkAdmin, getAllUsers);
+router.get('/users', verifyToken, checkAdmin, getAllUsers);
 
 // Modifier un utilisateur (admin seulement)
-router.put('/:id', verifyToken, checkAdmin, updateUser);
+router.put('/users/:id', verifyToken, checkAdmin, updateUser); // Correction : ajout du '/' avant ':id'
 
 // Supprimer un utilisateur (admin seulement)
-router.delete('/:id', verifyToken, checkAdmin, deleteUser);
+router.delete('/users/:id', verifyToken, checkAdmin, deleteUser); // Correction : ajout du '/' avant ':id'
 
-// ✅ Ajouter la route pour accepter ou refuser l'invitation
-router.get('/accept-invitation', verifyToken, checkAdmin, acceptOrRejectInvitation);
-
-
-// Cette route sera protégée par le middleware checkAdmin
-router.get('/admin', checkAdmin, (req, res) => {
+// Exemple : route protégée par middleware admin
+router.get('/isAdmin', checkAdmin, (req, res) => {
     res.send('Page réservée aux administrateurs');
 });
 
+// Route pour récupérer les invitations en attente
+router.get('/invitations', verifyToken, checkAdmin, getPendingInvitations);
 
 export default router;
