@@ -7,6 +7,10 @@ import AdminPage from "./components/AdminPage"; // Importation du composant Admi
 import Dashboard from "./components/Dashboard";
 import Users from "./components/Users";
 import Settings from "./components/Settings";
+import Checklists from "./components/Checklists";
+import Site from "./components/site";
+import Anomaly from "./components/Anomaly";
+import Notification from "./components/Notification";
 
 import "./App.css";
 
@@ -47,13 +51,17 @@ function App() {
             </div>
           }
         />
-         {/* Route parent pour le panneau admin */}
-         <Route path="/admin-panel" element={<AdminPage />}>
+        {/* Route parent pour le panneau admin */}
+        <Route path="/admin-panel" element={<AdminPage />}>
           {/* Routes enfants */}
           <Route index element={<Dashboard />} /> {/* Page par défaut */}
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="users" element={<Users />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="Checklists" element={<Checklists />} />
+          <Route path="Site" element={<Site />} />
+          <Route path="Anomaly" element={<Anomaly />} />
+          <Route path="Notification" element={<Notification />} />
         </Route>
 
         {/* Page de réinitialisation du mot de passe */}

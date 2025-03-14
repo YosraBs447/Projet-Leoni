@@ -1,9 +1,63 @@
 /* Dashboard Page */
-.dashboard {
+.dashboard-container {
   padding: 20px;
 }
 
-.dashboard h1 {
-  font-size: 24px;
+h1 {
+  font-size: 2rem;
   color: #333;
+}
+
+.stats-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.stat-card {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 25%;
+}
+
+.stat-card h2 {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.stat-card p {
+  font-size: 2rem;
+  color: #007bff;
+}
+
+.checklist-table {
+  margin-top: 30px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table,
+th,
+td {
+  border: 1px solid #ddd;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+td {
+  background-color: #fff;
 }
