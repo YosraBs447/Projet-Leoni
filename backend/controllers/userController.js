@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';  // Pour le hachage de mot de passe
 import User from '../models/userModel.js';  // Le modèle utilisateur pour interagir avec MongoDB
 import Invitation from '../models/invitationModel.js';  // Le modèle invitation pour interagir avec MongoDB
 import nodemailer from 'nodemailer';  // Pour l'envoi d'email
+import transporter from '../config/emailTransporter.js';
 
 
 // ======================================================
@@ -103,7 +104,7 @@ export const loginUser = async (req, res) => {
             process.env.JWT_SECRET, // Clé secrète pour signer le token
             { expiresIn: '1h' }  // Durée de validité du token (1 heure ici)
         );
-
+        
         console.log("✅ Connexion réussie !");
 
         // Renvoi du token au client
@@ -112,7 +113,6 @@ export const loginUser = async (req, res) => {
         res.status(500).send({ message: err.message });
     }
 };
-
 
 
 

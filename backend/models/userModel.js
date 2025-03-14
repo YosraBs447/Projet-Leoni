@@ -29,6 +29,11 @@ const userSchema = new mongoose.Schema({
         enum: ['admin', 'technicien'], // Le champ 'role' doit être soit 'admin', soit 'technicien'.
         default: 'technicien'     // Si aucune valeur n'est spécifiée lors de la création de l'utilisateur, 'technicien' sera utilisé par défaut.
     },
+    status: {
+        type: String,
+        enum: ['en_attente', 'accepted', 'rejected'],
+        default: 'en_attente' // Statut par défaut
+    },
     
     verificationCode: {
         type: String,

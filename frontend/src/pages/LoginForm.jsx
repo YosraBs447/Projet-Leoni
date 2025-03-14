@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
 
+
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,9 +22,15 @@ function LoginForm() {
     axios
       .post("http://localhost:3000/api/users/login", { email, password })
       .then((response) => {
+        if (response.data.token) {
         console.log("✅ Connexion réussie :", response.data);
         localStorage.setItem("token", response.data.token); // Stocker le token
+        console.log("🔑 Token enregistré :", response.data.token);
         navigate("/admin-panel/dashboard");
+        }else {
+          console.log("❌ Pas de token reçu !");
+          setErrorMessage("❌ Erreur : Aucun token reçu");
+        }
       })
       .catch((error) => {
         setLoading(false); // Arrêter l'indicateur de chargement

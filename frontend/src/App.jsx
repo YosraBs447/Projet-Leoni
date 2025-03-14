@@ -10,6 +10,7 @@ import Settings from "./components/Settings";
 
 import "./App.css";
 
+
 function App() {
   return (
     <Router>
@@ -48,11 +49,16 @@ function App() {
           }
         />
          {/* Route parent pour le panneau admin */}
-         <Route path="/admin-panel" element={<AdminPage />}>
+         <Route path="/admin-panel" element={<AdminPage />}> 
           {/* Routes enfants */}
           <Route index element={<Dashboard />} /> {/* Page par défaut */}
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="users" element={<Users />} />
+          <Route 
+            path="users"
+            element={<Users />} />
+                
+           
+              
           <Route path="settings" element={<Settings />} />
         </Route>
 

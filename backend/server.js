@@ -6,127 +6,107 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import passwordRoutes from './routes/passwordRoutes.js';
-import { sendInvitationToAdmin, sendEmailToTechnician } from './controllers/gestionTechController.js';
-import User from './models/userModel.js';
 import jwt from 'jsonwebtoken';
-import gestionTechRoutes from './routes/gestionTechRoutes.js';
+import morgan from 'morgan';
+import invitationRoutes from './routes/invitationRoutes.js'; // Importation de la route principale
+import User from './models/userModel.js';
 
+// 📌 1. CHARGEMENT DES VARIABLES D’ENVIRONNEMENT
+dotenv.config({ path: './.env' });
 
-dotenv.config({ path: "./.env" }); // Charger les variables d'environnement
+// Vérification des variables obligatoires
+const requiredEnvVars = ['JWT_SECRET', 'PORT', 'MONGO_URI', 'AUDIENCE', 'ISSUER'];
+requiredEnvVars.forEach((envVar) => {
+    if (!process.env[envVar]) {
+        console.error(`❌ Erreur: La variable d'environnement ${envVar} est manquante`);
+        process.exit(1);
+    }
+});
 
-connectDB(); // Connexion à la base de données
+// 📌 2. CONNEXION À LA BASE DE DONNÉES
+connectDB();
 
+// 📌 3. CRÉATION DU SERVEUR
 const app = express();
 
-app.use(cors({ origin: "http://localhost:5173" }));
+// ✅ Middleware CORS
+app.use(cors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}));
+
+// ✅ Sécurisation avec Helmet
 app.use(helmet());
+
+// ✅ Parsing JSON
 app.use(express.json());
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+// ✅ Logger Morgan en mode développement
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'));
+}
 
-app.use("/api/users", userRoutes);
-app.use("/api/password", passwordRoutes);
-app.use("/api/admin", gestionTechRoutes); // Préfixe '/api' pour toutes les routes de gestion des techniciens
+// Middleware pour désactiver la mise en cache sur toutes les routes
+app.use((req, res, next) => {
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+    next();
+});
 
-console.log("📩 EMAIL_USER :", process.env.EMAIL_USER);
-console.log("🔑 EMAIL_PASS :", process.env.EMAIL_PASS ? "OK" : "NON DÉFINI");
+// 📌 4. ROUTES PUBLIQUES
+app.get('/generate-token', (req, res) => {
+    const user = { _id: '12345', username: 'admin', role: 'admin' };
+    const token = jwt.sign({ 
+        userId: user._id, 
+        role: user.role 
+    }, process.env.JWT_SECRET, { 
+        expiresIn: '1h',
+        issuer: process.env.ISSUER,
+        audience: process.env.AUDIENCE
+    });
+    res.json({ token });
+});
 
-// Vérification du JWT et de la clé secrète
+// 📌 5. ROUTES API
+app.use('/api/users', userRoutes);
+app.use('/api/password', passwordRoutes);
+app.use('/api/invitations', invitationRoutes);
+
+
+
+// Middleware d'authentification JWT
 const checkJwt = auth({
-    audience: 'https://dev-l6ahn3xj3jdh0ku4.us.auth0.com/api/v2/',
-    issuerBaseURL: 'https://dev-l6ahn3xj3jdh0ku4.us.auth0.com/',
+    audience: process.env.AUDIENCE,
+    issuer: process.env.ISSUER,
+    algorithms: ['HS256'],
+    secret: process.env.JWT_SECRET,
+    tokenSigningAlg: 'HS256',
 });
 
-// Route protégée pour l'admin
+// Route protégée exemple
 app.get('/api/admin', checkJwt, (req, res) => {
-    res.json({ message: 'Bienvenue dans la zone admin!' });
+    res.json({ 
+        message: 'Bienvenue dans la zone admin!',
+        user: req.auth
+    });
 });
 
-// Route pour l'inscription du technicien
-app.post('/register', async (req, res) => {
-    try {
-        const { email, username, password } = req.body;
-
-        const user = new User({
-            email,
-            username,
-            password,
-            role: 'technicien',
-            status: 'en attente',
-        });
-
-        await user.save();
-
-        // Envoi d'un email à l'admin pour valider le technicien
-        await sendInvitationToAdmin(user);
-
-        res.status(201).send({ message: 'Technicien inscrit avec succès. En attente de validation.' });
-    } catch (error) {
-        console.error("Erreur lors de l'inscription :", error);
-        res.status(500).send({ message: 'Erreur lors de l\'inscription.' });
-    }
+// 📌 6. GESTION DES ERREURS
+app.use((req, res, next) => {
+    res.status(404).json({ error: "Ressource non trouvée" });
 });
 
-// Route pour accepter ou refuser un technicien
-app.put('/accept-invitation/:userId/:action', async (req, res) => {
-    try {
-        const { userId, action } = req.params;
-
-        // Validation des entrées
-        if (!['accept', 'reject'].includes(action)) {
-            return res.status(400).send('Action invalide.');
-        }
-
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).send('Utilisateur non trouvé.');
-        }
-
-        // Mise à jour du statut de l'utilisateur
-        const newStatus = action === 'accept' ? 'validé' : 'refusé';
-        await User.findByIdAndUpdate(userId, { status: newStatus });
-
-        // Message à envoyer par email
-        const emailSubject = action === 'accept'
-            ? 'Votre compte a été validé'
-            : 'Votre compte a été refusé';
-        const emailBody = action === 'accept'
-            ? 'Votre inscription a été validée par l\'administrateur. Vous pouvez maintenant vous connecter.'
-            : 'Votre inscription a été refusée par l\'administrateur.';
-
-        try {
-            await sendEmailToTechnician(user.email, emailSubject, emailBody);
-        } catch (emailError) {
-            console.error("Erreur lors de l'envoi de l'email :", emailError);
-            return res.status(500).send('Mise à jour effectuée, mais échec de l\'envoi de l\'email.');
-        }
-
-        res.send(action === 'accept'
-            ? 'Invitation acceptée, le technicien peut maintenant accéder à l\'interface.'
-            : 'Invitation refusée.');
-    } catch (error) {
-        console.error("Erreur dans l'acceptation de l'invitation :", error);
-        res.status(500).send('Erreur serveur.');
-    }
+app.use((err, req, res, next) => {
+    console.error('❌ Erreur serveur:', err.stack);
+    res.status(500).json({ error: "Erreur interne du serveur" });
 });
 
-
-// Génération d'un JWT signé
-const generateJwt = (userId) => {
-    if (!userId) {
-        throw new Error("userId is required to generate a JWT."); // Vérification de l'ID de l'utilisateur
-    }
-
-    const secret = process.env.JWT_SECRET;
-    if (!secret) {
-        throw new Error("JWT_SECRET is not defined in .env");   // Vérification de la clé secrète
-    }
-
-    const payload = { userId };
-
-    return jwt.sign(payload, secret, { expiresIn: "1h", algorithm: "HS256" }); // Génération du JWT
-};
-
-// Lancement du serveur
+// 📌 7. DÉMARRAGE DU SERVEUR
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(` Server running on port ${PORT}`);
+    console.log(`🚀 Serveur démarré sur le port ${PORT}`);
+    console.log(`🌍 Environnement: ${process.env.NODE_ENV}`);
 });

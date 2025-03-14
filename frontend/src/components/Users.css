@@ -1,74 +1,140 @@
-/* Users.css */
+/* Arrière-plan global */
+body {
+  background-color: #f4f6f7; /* Couleur d'arrière-plan de la page */
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
 
-.users-container {
-    padding: 20px;
-    color: #333;
-    background-color: #f9f9f9; /* Fond clair */
-    min-height: calc(100vh - 100px); /* Prend toute la hauteur restante */
-    min-width: calc(100vw - 260px); /* Prend toute la largeur restante */
-    box-sizing: border-box; /* Inclut le padding dans le calcul de la largeur */
-  }
-  
-  .user-list {
-    list-style: none; /* Supprime les puces */
-    padding: 0;
-    margin: 0;
-  }
-  
-  .user-item {
-    display: flex;
-    justify-content: space-between; /* Alignement des éléments */
-    align-items: center; /* Centrage vertical */
-    background-color: white; /* Fond blanc pour chaque utilisateur */
-    border: 1px solid #ddd; /* Bordure légère */
-    border-radius: 8px; /* Coins arrondis */
-    padding: 15px;
-    margin-bottom: 10px; /* Espacement entre les éléments */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
-  }
-  
-  .user-item:hover {
-    background-color: #f0f8ff; /* Changement de couleur au survol */
-    cursor: pointer; /* Curseur de pointeur */
-  }
-  
-  .user-info {
-    display: flex;
-    align-items: center; /* Centrage vertical */
-  }
-  
-  .user-info img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%; /* Avatar circulaire */
-    margin-right: 15px; /* Espacement entre l'image et le texte */
-  }
-  
-  .user-info span {
-    font-size: 18px;
-    color: #333; /* Texte sombre */
-  }
-  
-  .user-actions button {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease; /* Transition fluide */
-  }
-  
-  .user-actions .edit-btn {
-    background-color: #4caf50; /* Vert pour "Modifier" */
-    color: white;
-  }
-  
-  .user-actions .delete-btn {
-    background-color: #f44336; /* Rouge pour "Supprimer" */
-    color: white;
-    margin-left: 10px; /* Espacement entre les boutons */
-  }
-  
-  .user-actions button:hover {
-    opacity: 0.9; /* Légère réduction d'opacité au survol */
-  }
+/* Conteneur principal */
+.app_container {
+  flex: 1;
+  min-width: 1140px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 30px;
+  background: linear-gradient(145deg, #ffffff, #f0f4f7); /* Dégradé subtil */
+  border-radius: 20px; /* Coins arrondis plus larges */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05); /* Ombre douce */
+  border: 1px solid #eaeaea; /* Légère bordure pour un effet propre */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Effet fluide au survol */
+}
+
+/* Effet au survol du conteneur */
+.app_container:hover {
+  transform: translateY(-5px); /* Légère élévation */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15), 0 6px 10px rgba(0, 0, 0, 0.1); /* Ombre plus prononcée */
+}
+
+/* Titre */
+h2 {
+  text-align: center;
+  color: #333333;
+  font-size: 24px;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+h2::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 3px;
+  background-color: #007bff;
+  margin: 10px auto 20px;
+  border-radius: 5px;
+}
+
+/* Tableau */
+/* Tableau */
+.tab {
+  overflow-x: auto; /* Permet le défilement horizontal si nécessaire */
+  border-radius: 12px; /* Coins arrondis pour le tableau */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); /* Ombre subtile */
+  background-color: #ffffff; /* Fond blanc pour le tableau */
+  border: 1px solid #dee2e6; /* Bordure légère */
+  padding: 20px; /* Espacement interne */
+}
+
+table {
+  width: 100%; /* Remplit toute la largeur disponible */
+  border-collapse: separate; /* Sépare les bordures pour un effet moderne */
+  border-spacing: 0; /* Supprime l'espace entre les cellules */
+  margin-top: 20px;
+}
+
+/* En-tête de la table */
+thead {
+  background: linear-gradient(145deg, #0d6efd, #0b5ed7); /* Dégradé bleu vibrant */
+  color: white; /* Texte blanc */
+}
+
+thead th {
+  padding: 15px 20px; /* Espacement interne pour les en-têtes */
+  text-align: left;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #ffffff; /* Ligne blanche sous les en-têtes */
+}
+
+/* Corps de la table */
+tbody tr {
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+tbody td {
+  padding: 15px 20px; /* Espacement interne pour les cellules */
+  vertical-align: middle;
+  border-bottom: 1px solid #e9ecef; /* Bordure gris clair entre les lignes */
+  color: #495057; /* Gris foncé pour le texte */
+}
+
+/* Hover sur les lignes */
+tbody tr:hover {
+  background-color: #f8f9fa; /* Fond gris clair au survol */
+  transform: scale(1.01); /* Légère augmentation de taille pour un effet interactif */
+}
+
+/* Style des boutons dans le tableau */
+button {
+  padding: 8px 12px; /* Taille ajustée pour les boutons */
+  margin: 0 5px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px; /* Taille de police réduite pour les boutons */
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button.accepter {
+  background-color: #198754; /* Vert émeraude pour "Accepter" */
+  color: white;
+}
+
+button.rejeter {
+  background-color: #dc3545; /* Rouge vif pour "Rejeter" */
+  color: white;
+}
+
+button.accepter:hover {
+  background-color: #157347; /* Vert plus foncé au survol */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+button.rejeter:hover {
+  background-color: #b02a37; /* Rouge plus foncé au survol */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Messages d'état */
+p {
+  text-align: center;
+  font-size: 16px;
+  color: #555555;
+  margin-top: 20px;
+}

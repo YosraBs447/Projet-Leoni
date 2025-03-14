@@ -1,21 +1,21 @@
+// userRoutes.js
 import express from 'express';
-import { verifyToken, checkAdmin } from '../middleware/auth.js'; // Import des middlewares
-import { registerUser, loginUser } from '../controllers/userController.js';
+import { 
+    registerUser, 
+    loginUser}from '../controllers/userController.js';
+import { verifyToken, checkAdmin } from '../middleware/auth.js';
+import { getAllUsers, deleteUser } from '../controllers/gestionTechController.js';
+
 const router = express.Router();
 
-// Routes pour l'enregistrement et la connexion
+// Routes publiques
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 
-// Route protégée /private
-router.get('/private', verifyToken, (req, res) => {
-    res.json({ message: 'Bienvenue dans la zone privée, vous êtes authentifié!' });
-  });
-
-// Routes protégées : ces routes nécessitent que l'utilisateur soit authentifié (JWT) et admin (checkAdmin)
-
-
-
-
+// Routes protégées admin
+router.get('/', verifyToken, checkAdmin, getAllUsers); // GET /api/users
+router.delete('/:id', verifyToken, checkAdmin, deleteUser); // DELETE /api/users/:id
+//router.get('/invitations', verifyToken, checkAdmin, getPendingInvitations); // GET /api/users/invitations
+//router.put('/invitations/:id', verifyToken, checkAdmin, acceptOrRejectInvitation); // PUT /api/users/invitations/:id
 
 export default router;
