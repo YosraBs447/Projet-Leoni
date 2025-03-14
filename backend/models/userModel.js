@@ -34,6 +34,11 @@ const userSchema = new mongoose.Schema({
         enum: ['en_attente', 'accepted', 'rejected'],
         default: 'en_attente' // Statut par défaut
     },
+
+    dateInscription: { // Ajout du champ dateInscription
+        type: Date,
+        default: Date.now // Date actuelle par défaut
+    },
     
     verificationCode: {
         type: String,

@@ -1,140 +1,55 @@
-/* Arrière-plan global */
+/* Users.css */
 body {
-  background-color: #f4f6f7; /* Couleur d'arrière-plan de la page */
-  margin: 0;
-  padding: 0;
+  color: black; /* Force tout le texte à être noir */
+}
+
+.app_container {
+  padding: 20px;
   font-family: Arial, sans-serif;
 }
 
-/* Conteneur principal */
-.app_container {
-  flex: 1;
-  min-width: 1140px;
-  min-height: 100vh;
-  margin: 0 auto;
-  padding: 30px;
-  background: linear-gradient(145deg, #ffffff, #f0f4f7); /* Dégradé subtil */
-  border-radius: 20px; /* Coins arrondis plus larges */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05); /* Ombre douce */
-  border: 1px solid #eaeaea; /* Légère bordure pour un effet propre */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Effet fluide au survol */
-}
-
-/* Effet au survol du conteneur */
-.app_container:hover {
-  transform: translateY(-5px); /* Légère élévation */
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15), 0 6px 10px rgba(0, 0, 0, 0.1); /* Ombre plus prononcée */
-}
-
-/* Titre */
 h2 {
-  text-align: center;
-  color: #333333;
   font-size: 24px;
+}
+
+p {
+  font-size: 14px;
+}
+
+.tabs {
+  display: flex;
   margin-bottom: 20px;
-  letter-spacing: 1px;
-  position: relative;
 }
 
-h2::after {
-  content: '';
-  display: block;
-  width: 80px;
-  height: 3px;
-  background-color: #007bff;
-  margin: 10px auto 20px;
-  border-radius: 5px;
+.tab_button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background-color: #f4f4f4;
+  cursor: pointer;
 }
 
-/* Tableau */
-/* Tableau */
+.tab_button.active {
+  background-color: #007BFF;
+  color: white;
+}
+
 .tab {
-  overflow-x: auto; /* Permet le défilement horizontal si nécessaire */
-  border-radius: 12px; /* Coins arrondis pour le tableau */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); /* Ombre subtile */
-  background-color: #ffffff; /* Fond blanc pour le tableau */
-  border: 1px solid #dee2e6; /* Bordure légère */
-  padding: 20px; /* Espacement interne */
+  border: 1px solid #ddd;
 }
 
 table {
-  width: 100%; /* Remplit toute la largeur disponible */
-  border-collapse: separate; /* Sépare les bordures pour un effet moderne */
-  border-spacing: 0; /* Supprime l'espace entre les cellules */
-  margin-top: 20px;
+  width: 100%;
 }
 
-/* En-tête de la table */
 thead {
-  background: linear-gradient(145deg, #0d6efd, #0b5ed7); /* Dégradé bleu vibrant */
-  color: white; /* Texte blanc */
+  background-color: #f4f4f4;
 }
 
-thead th {
-  padding: 15px 20px; /* Espacement interne pour les en-têtes */
-  text-align: left;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  border-bottom: 2px solid #ffffff; /* Ligne blanche sous les en-têtes */
+.accepter {
+  background-color: #4CAF50;
 }
 
-/* Corps de la table */
-tbody tr {
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-tbody td {
-  padding: 15px 20px; /* Espacement interne pour les cellules */
-  vertical-align: middle;
-  border-bottom: 1px solid #e9ecef; /* Bordure gris clair entre les lignes */
-  color: #495057; /* Gris foncé pour le texte */
-}
-
-/* Hover sur les lignes */
-tbody tr:hover {
-  background-color: #f8f9fa; /* Fond gris clair au survol */
-  transform: scale(1.01); /* Légère augmentation de taille pour un effet interactif */
-}
-
-/* Style des boutons dans le tableau */
-button {
-  padding: 8px 12px; /* Taille ajustée pour les boutons */
-  margin: 0 5px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 12px; /* Taille de police réduite pour les boutons */
-  font-weight: 500;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-button.accepter {
-  background-color: #198754; /* Vert émeraude pour "Accepter" */
-  color: white;
-}
-
-button.rejeter {
-  background-color: #dc3545; /* Rouge vif pour "Rejeter" */
-  color: white;
-}
-
-button.accepter:hover {
-  background-color: #157347; /* Vert plus foncé au survol */
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-}
-
-button.rejeter:hover {
-  background-color: #b02a37; /* Rouge plus foncé au survol */
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-}
-
-/* Messages d'état */
-p {
-  text-align: center;
-  font-size: 16px;
-  color: #555555;
-  margin-top: 20px;
+.rejeter {
+  background-color: #F44336;
 }

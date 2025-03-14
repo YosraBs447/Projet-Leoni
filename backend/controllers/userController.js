@@ -54,6 +54,7 @@ export const registerUser = async (req, res) => {
             const invitation = new Invitation({
                 userId: newUser._id, // Référence à l'utilisateur créé
                 status: 'pending', // Statut initial : en attente
+                
             });
 
             await invitation.save();
