@@ -11,7 +11,7 @@ dotenv.config();
 export const getPendingInvitations = async (req, res) => {
     try {
         const invitations = await Invitation.find({ status: 'pending' })
-            .populate('userId', 'nomPrenom email site') // Sélection des champs nécessaires
+            .populate('userId', 'nomPrenom email site role dateInscription') // Sélection des champs nécessaires
             .exec();
         
         res.status(200).json(invitations);
@@ -159,64 +159,99 @@ const sendEmailToTechnician = async (email, subject, message, action) => {
         console.log("Sujet de l'email :", subject); // Affiche le sujet
         console.log("Contenu de l'email :", message); // Affiche le texte du message
 
+        // URL de redirection vers votre plateforme
+        const platformUrl = "http://localhost:5173/"; // Remplacez par l'URL réelle de votre plateforme
+
         const htmlMessage = `
             <html>
                 <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <style>
                         body {
                             font-family: Arial, sans-serif;
-                            color: #333;
-                            background-color: #f4f4f9;
-                            padding: 20px;
+                            background-color: #f9f9f9;
+                            margin: 0;
+                            padding: 0;
                         }
                         .container {
                             max-width: 600px;
-                            margin: 0 auto;
-                            padding: 20px;
-                            background-color: #fff;
-                            border-radius: 8px;
-                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                            margin: 20px auto;
+                            background-color: #ffffff;
+                            border-radius: 12px; /* Coins légèrement arrondis */
+                            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+                            overflow: hidden;
+                            padding: 30px;
                         }
                         h1 {
-                            color: #4CAF50;
+                            color: ${action === 'accept' ? '#007BFF' : '#DC3545'}; /* Bleu pour accepté, rouge pour refusé */
                             text-align: center;
+                            font-size: 24px;
+                            font-weight: bold;
+                            letter-spacing: 1px;
                         }
                         p {
                             font-size: 16px;
-                            line-height: 1.5;
+                            line-height: 1.6;
+                            color: #333;
+                            text-align: left;
                         }
-                        .status {
-                            font-weight: bold;
-                            color: #fff;
-                            padding: 10px;
-                            border-radius: 5px;
+                        .status-box {
+                            background-color: ${action === 'accept' ? '#e7f3ff' : '#ffebee'}; /* Fond clair pour le statut */
+                            color: ${action === 'accept' ? '#004085' : '#c62828'}; /* Texte bleu ou rouge */
+                            padding: 15px;
+                            border-radius: 8px; /* Coins arrondis doux */
                             text-align: center;
-                        }
-                        .accepted {
-                            background-color: #4CAF50;
-                        }
-                        .rejected {
-                            background-color: #F44336;
+                            font-size: 18px;
+                            font-weight: bold;
+                            margin: 20px 0;
                         }
                         .footer {
-                            margin-top: 20px;
-                            text-align: center;
+                            text-align: left;
                             font-size: 14px;
-                            color: #aaa;
+                            color: #777;
+                            margin-top: 20px;
+                            border-top: 1px solid #ddd;
+                            padding-top: 15px;
+                        }
+                        .button {
+                            display: inline-block;
+                            background: linear-gradient(135deg, #007BFF, #0056b3); /* Dégradé bleu pour accepté */
+                            color: #fff;
+                            text-decoration: none;
+                            padding: 10px 20px;
+                            border-radius: 6px; /* Coins arrondis discrets */
+                            font-size: 16px;
+                            font-weight: bold;
+                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                            transition: all 0.3s ease;
+                            text-transform: uppercase;
+                            margin-top: 20px;
+                        }
+                        .button.rejected {
+                            background: linear-gradient(135deg, #DC3545, #a71d2a); /* Dégradé rouge pour refusé */
+                        }
+                        .button:hover {
+                            opacity: 0.9; /* Légère opacité au survol */
                         }
                     </style>
                 </head>
                 <body>
                     <div class="container">
-                        <h1>Statut de votre invitation</h1>
+                        <h1>Statut de votre inscription</h1>
                         <p>Bonjour,</p>
-                        <p>Votre invitation a été ${action === 'accept' ? 'acceptée' : 'refusée'} par l'administrateur.</p>
-                        <div class="status ${action === 'accept' ? 'accepted' : 'rejected'}">
-                            <p>${action === 'accept' ? 'Acceptée' : 'Refusée'}</p>
+                        <p>Votre demande d'inscription a été ${action === 'accept' ? 'approuvée' : 'refusée'} par l'administrateur.</p>
+                        <div class="status-box">
+                            Statut : ${action === 'accept' ? 'Approuvé' : 'Refusé'}
                         </div>
                         <p>Nous vous remercions pour votre patience et restons à votre disposition pour toute information supplémentaire.</p>
+                        ${
+                            action === 'accept'
+                                ? `<a href="${platformUrl}" class="button">Accéder à la plateforme</a>`
+                                : `<a href="mailto:support@votreentreprise.com" class="button rejected">Contactez-nous</a>`
+                        }
                         <div class="footer">
-                            <p>Si vous avez des questions, n'hésitez pas à nous contacter.</p>
+                            Ce message a été envoyé automatiquement. Veuillez ne pas y répondre directement.
                         </div>
                     </div>
                 </body>

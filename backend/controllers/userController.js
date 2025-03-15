@@ -60,11 +60,110 @@ export const registerUser = async (req, res) => {
             await invitation.save();
 
             // Envoyez un email à l'administrateur
+            // Envoyez un email à l'administrateur
+           // Envoyez un email à l'administrateur
+           // Envoyez un email à l'administrateur
             const mailOptions = {
                 from: process.env.EMAIL_USER, // Adresse email de l'expéditeur
                 to: 'eyaaaboughzelaa27@gmail.com', // Remplacez par l'email de l'admin
                 subject: 'Nouvelle demande d\'inscription',
-                text: `Un nouvel utilisateur souhaite s'inscrire :\n\nNom: ${nomPrenom}\nEmail: ${email}`,
+                html: `
+                    <!DOCTYPE html>
+                    <html lang="fr">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                background-color: #f9f9f9;
+                                margin: 0;
+                                padding: 0;
+                            }
+                            .email-container {
+                                max-width: 600px;
+                                margin: 20px auto;
+                                background-color: #ffffff;
+                                border-radius: 30px; /* Coins très arrondis */
+                                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Ombre plus prononcée */
+                                overflow: hidden;
+                                padding: 25px;
+                            }
+                            .header {
+                                background: linear-gradient(135deg, #6a11cb, #2575fc); /* Nouveau dégradé violet-bleu */
+                                color: #ffffff;
+                                text-align: center;
+                                padding: 20px 0;
+                                font-size: 24px;
+                                font-weight: bold;
+                                letter-spacing: 1px;
+                                border-bottom: 2px solid #4e0cc4; /* Bordure fine en violet foncé */
+                            }
+                            .content {
+                                padding: 20px;
+                                font-size: 16px;
+                                line-height: 1.6;
+                                color: #333;
+                            }
+                            .content ul {
+                                list-style: none;
+                                padding: 0;
+                            }
+                            .content ul li {
+                                margin-bottom: 10px;
+                                font-weight: 500;
+                            }
+                            .footer {
+                                text-align: center;
+                                font-size: 14px;
+                                color: #777;
+                                padding: 15px;
+                                border-top: 1px solid #ddd;
+                            }
+                            .button {
+                                display: inline-block;
+                                background: linear-gradient(135deg, #6a11cb, #2575fc); /* Dégradé violet-bleu */
+                                color: #ffffff !important; /* Texte en blanc */
+                                text-decoration: none;
+                                padding: 10px 20px;
+                                border-radius: 30px; /* Coins très arrondis pour le bouton */
+                                font-size: 16px;
+                                font-weight: bold;
+                                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                                transition: all 0.3s ease;
+                                text-transform: uppercase;
+                                margin-top: 20px;
+                            }
+                            .button:hover {
+                                background: linear-gradient(135deg, #2575fc, #6a11cb); /* Inversion du dégradé au survol */
+                                box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="email-container">
+                            <div class="header">
+                                Nouvelle Demande d'Inscription
+                            </div>
+                            <div class="content">
+                                <p>Bonjour,</p>
+                                <p>Un nouvel utilisateur souhaite s'inscrire sur la plateforme :</p>
+                                <ul>
+                                    <li><strong>NomPrenom : </strong> ${nomPrenom}</li>
+                                    <li><strong>Email : </strong> ${email}</li>
+                                    <li><strong>Site : </strong> ${site}</li>
+                                    <li><strong>Matricule : </strong> ${matricule}</li>
+                                </ul>
+                                <p>Veuillez examiner cette demande dans votre tableau de bord administrateur.</p>
+                                <a href="http://localhost:5173/" class="button">Voir la demande</a>
+                            </div>
+                            <div class="footer">
+                                Ce message a été envoyé automatiquement. Veuillez ne pas répondre directement.
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+                `,
             };
 
             await transporter.sendMail(mailOptions);

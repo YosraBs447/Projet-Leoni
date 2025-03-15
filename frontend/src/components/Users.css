@@ -1,55 +1,181 @@
-/* Users.css */
+/* Styles globaux */
 body {
-  color: black; /* Force tout le texte à être noir */
+  color: #333; /* Texte légèrement plus doux */
+  background-color: #f9f9f9; /* Fond léger pour un contraste agréable */
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.app_container {
-  padding: 20px;
-  font-family: Arial, sans-serif;
+.user_container {
+  max-width: 1200px; /* Limite la largeur pour une meilleure lisibilité */
+  margin: 0 auto;
+  padding: 40px 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère pour un effet 3D */
 }
 
 h2 {
-  font-size: 24px;
+  font-size: 28px;
+  color: #2c3e50; /* Bleu profond pour les titres */
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 p {
-  font-size: 14px;
+  font-size: 16px;
+  color: #555; /* Gris moyen pour les descriptions */
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 .tabs {
   display: flex;
-  margin-bottom: 20px;
+  justify-content: center;
+  gap: 10px; /* Espace entre les boutons */
+  margin-bottom: 30px;
 }
 
 .tab_button {
-  flex: 1;
-  padding: 10px;
+  padding: 12px 24px;
   border: none;
-  background-color: #f4f4f4;
+  border-radius: 6px;
+  background-color: #e0e0e0;
+  color: #333;
+  font-size: 16px;
   cursor: pointer;
+  transition: all 0.3s ease; /* Animation fluide */
 }
 
 .tab_button.active {
   background-color: #007BFF;
-  color: white;
+  color: #fff;
+}
+
+.tab_button:hover:not(.active) {
+  background-color: #d1d1d1;
 }
 
 .tab {
+  min-height: 300px; /* Hauteur minimale pour éviter les différences */
+  overflow-y: auto; /* Ajoute une barre de défilement si nécessaire */
   border: 1px solid #ddd;
+  border-radius: 6px;
 }
 
 table {
   width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Force les colonnes à avoir une largeur fixe */
 }
 
 thead {
-  background-color: #f4f4f4;
+  background-color: #007BFF;
+  color: #fff;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  word-wrap: break-word; /* Gère le texte long en le coupant si nécessaire */
+}
+
+/* Largeurs fixes pour chaque colonne */
+th:nth-child(1),
+td:nth-child(1) {
+  width: 15%; /* Nom */
+}
+th:nth-child(2),
+td:nth-child(2) {
+  width: 20%; /* Email */
+}
+th:nth-child(3),
+td:nth-child(3) {
+  width: 15%; /* Site */
+}
+th:nth-child(4),
+td:nth-child(4) {
+  width: 15%; /* Rôle */
+}
+th:nth-child(5),
+td:nth-child(5) {
+  width: 15%; /* Date */
+}
+th:nth-child(6),
+td:nth-child(6) {
+  width: 10%; /* Statut */
+}
+th:nth-child(7),
+td:nth-child(7) {
+  width: 10%; /* Actions */
+}
+
+/* Styles pour les boutons Accepter et Rejeter */
+/* Styles pour les boutons Accepter et Rejeter */
+.accepter,
+.rejeter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px; /* Légèrement plus grand que précédemment */
+  font-size: 13px; /* Texte un peu plus grand pour une meilleure lisibilité */
+  font-weight: 500; /* Police légèrement épaisse pour une meilleure lisibilité */
+  border: none;
+  border-radius: 6px; /* Coins arrondis légèrement plus prononcés */
+  cursor: pointer;
+  text-transform: uppercase; /* Texte en majuscules pour un look professionnel */
+  transition: all 0.3s ease; /* Animation fluide */
+  box-shadow: none; /* Pas d'ombre pour un design sobre */
+  outline: none; /* Suppression de la bordure au focus */
 }
 
 .accepter {
-  background-color: #4CAF50;
+  background-color: #17a2b8; /* Bleu turquoise professionnel */
+  color: #fff;
+}
+
+.accepter:hover {
+  background-color: #138496; /* Bleu turquoise foncé au survol */
 }
 
 .rejeter {
-  background-color: #F44336;
+  background-color: #6c757d; /* Gris neutre professionnel */
+  color: #fff;
+}
+
+.rejeter:hover {
+  background-color: #5a6268; /* Gris foncé au survol */
+}
+
+/* Espacement entre les boutons */
+button + button {
+  margin-left: 8px; /* Espace légèrement augmenté entre les boutons */
+}
+
+
+
+
+@media (max-width: 768px) {
+  .app_container {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  p {
+    font-size: 14px;
+  }
+
+  .tabs {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  th, td {
+    padding: 10px;
+    font-size: 14px;
+  }
 }
